@@ -30,8 +30,7 @@ const TransactionManagement = lazy(
 const App = () => {
   return (
     <Router>
-
-      {/* header */}
+      {/* header common for all pages */}
       <Header/> 
       <Suspense fallback={<Loader/>}>
         <Routes>
