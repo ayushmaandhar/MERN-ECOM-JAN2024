@@ -50,7 +50,6 @@ const App = () => {
             <Route path='/shipping' element={<Shipping/>}/>
           </Route>
 
-
           {/* admin routes */}          
            <Route
             // element={
