@@ -37,6 +37,8 @@ a {
 @import "_home";
 @import "_cart";
 @import "_shipping";
+@import "_login";
+
 
 @import "admin-styles/dashboard";
 @import "admin-styles/products";
@@ -88,7 +90,12 @@ a {
 }
 
 
+.heading {
+  @include heading;
+  margin: 1rem 0;
+  text-align: center;
 
+}
 
 
 
