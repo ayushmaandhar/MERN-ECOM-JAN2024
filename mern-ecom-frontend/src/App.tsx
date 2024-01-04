@@ -10,6 +10,7 @@ const Search = lazy(()=>import('./pages/search'));
 const Cart = lazy(()=>import('./pages/cart'));
 const Shipping = lazy(()=>import('./pages/shipping'));
 const Login = lazy(()=>import('./pages/login'));
+const Orders = lazy(()=>import('./pages/orders'));
 
 
 // Admin dashboard importing
@@ -48,6 +49,7 @@ const App = () => {
           {/* Logged In User Routes */}
           <Route>
             <Route path='/shipping' element={<Shipping/>}/>
+            <Route path='/orders' element={<Orders/>}/>
           </Route>
 
           {/* admin routes */}          
