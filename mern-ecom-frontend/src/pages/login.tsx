@@ -29,7 +29,6 @@ const Login = () => {
                 _id: user.uid
             });
 
-
             if ( "data" in res) {
                 toast.success(res.data.message)
             }
