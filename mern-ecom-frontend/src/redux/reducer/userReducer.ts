@@ -7,7 +7,6 @@ const initialState: UserReducerInitialState = {
     loading: true
 }
 
-
 export const userReducer = createSlice({
     name: "userReducer",
     initialState,
@@ -22,6 +21,5 @@ export const userReducer = createSlice({
         },
     }
 });
-
 
 export const {userExist, userNotExist} = userReducer.actions;
