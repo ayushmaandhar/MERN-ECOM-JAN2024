@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { CartReducerInitialState } from "../types/reducer-types";
 import { CartItem } from "../types/types";
 import toast from "react-hot-toast";
-import { addToCart, calculatePrice, removeCartItem } from "../redux/reducer/cartReducer";
+import { addToCart, calculatePrice, discountApplied, removeCartItem } from "../redux/reducer/cartReducer";
+import axios from "axios";
+import { server } from "../redux/store";
 
 
 const Cart = () => {
@@ -36,16 +38,27 @@ const Cart = () => {
   }
 
   useEffect(()=>{
-
+    const { token: cancelToken, cancel } = axios.CancelToken.source();
     const timeOutId = setTimeout(()=>{
-      if (Math.random() > 0.5) {
+
+      axios.get(`${server}/api/v1/payment/discount?coupon=${couponCode}`,{cancelToken})
+      .then((res) => {
+        dispatch(discountApplied(res.data.discount));
         setIsValidCouponCode(true);
-      }
-      else setIsValidCouponCode(false);
-    }, 1000)
+        dispatch(calculatePrice());
+      })
+      .catch(() => {
+        dispatch(discountApplied(0));
+        setIsValidCouponCode(false);
+        dispatch(calculatePrice());
+      });
+
+    }, 1000);
+      
 
     return () => {
       clearTimeout(timeOutId);
+      cancel();
       setIsValidCouponCode(false);
     }
 

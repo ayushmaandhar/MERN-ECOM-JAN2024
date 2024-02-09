@@ -78,7 +78,8 @@ const App = () => {
               <ProtectedRoute isAuthenticated = {user ? false : true}>
                 <Login/>
               </ProtectedRoute>
-            }/>
+            }
+          />
 
           {/* Logged In User Routes */}
           <Route
