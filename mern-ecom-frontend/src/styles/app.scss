@@ -108,7 +108,14 @@ a {
 }
 
 
+.not-found {
+  @include flex(column);
+  height: 80vh;
+  > svg {
+    font-size: 5rem;
+  }
 
+}
 
 // admin styles
 

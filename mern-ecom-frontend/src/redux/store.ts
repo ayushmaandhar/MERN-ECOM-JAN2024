@@ -3,6 +3,7 @@ import { userAPI } from "./api/userAPI";
 import { userReducer } from "./reducer/userReducer";
 import { productAPI } from "./api/productAPI";
 import { cartReducer } from "./reducer/cartReducer";
+import { orderApi } from "./api/orderAPI";
 
 
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     reducer: {
         [userAPI.reducerPath]: userAPI.reducer,
         [productAPI.reducerPath]: productAPI.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
         [userReducer.name]: userReducer.reducer,
         [cartReducer.name]: cartReducer.reducer
 
@@ -21,4 +23,5 @@ export const store = configureStore({
         getDefaultMiddleware()
         .concat(userAPI.middleware)
         .concat(productAPI.middleware)
+        .concat(orderApi.middleware)
 });

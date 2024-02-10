@@ -1,65 +1,89 @@
 import { FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
-import { OrderItem } from "../../../models/types";
 import { server } from "../../../redux/store";
+import { Order, OrderItem } from "../../../types/types";
+import { useSelector } from "react-redux";
+import { UserReducerInitialState } from "../../../types/reducer-types";
+import { useDeleteOrderMutation, useOrderDetailsQuery, useUpdateOrderMutation } from "../../../redux/api/orderAPI";
+import { SkeletonLoader } from "../../../components/loader";
+import { responseToast } from "../../../utils/features";
 
-const img =
-  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
 
-const orderItems: OrderItem[] = [
-  {
-    name: "Puma Shoes",
-    photo: img,
-    id: "asdsaasdas",
-    quantity: 4,
-    price: 2000,
+const defaultData: Order = {
+  shippingInfo: {
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    pinCode: ""
   },
-];
+  status: "",
+  subTotal: 0,
+  shippingCharges: 0,
+  discount: 0,
+  tax: 0,
+  total: 0,
+  orderItems: [],
+  user: {
+    name: "",
+    _id: ""
+  },
+  _id: ""
+}
 
 const TransactionManagement = () => {
-  const [order, setOrder] = useState({
-    name: "Puma Shoes",
-    address: "77 black street",
-    city: "Neyword",
-    state: "Nevada",
-    country: "US",
-    pinCode: 242433,
-    status: "Processing",
-    subtotal: 4000,
-    discount: 1200,
-    shippingCharges: 0,
-    tax: 200,
-    total: 4000 + 200 + 0 - 1200,
-    orderItems,
-  });
+
+  const {user} = useSelector((state: 
+    {userReducer: UserReducerInitialState}) => state.userReducer);
+  
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const {isLoading, data, isError } = useOrderDetailsQuery(params.id!);
 
   const {
-    name,
-    address,
-    city,
-    country,
-    state,
-    pinCode,
-    subtotal,
-    shippingCharges,
-    tax,
-    discount,
-    total,
+    shippingInfo: {address, city, state, country, pinCode}, 
+    orderItems, 
+    user: {name},
     status,
-  } = order;
+    tax,
+    subTotal,
+    shippingCharges,
+    total,
+    discount,
+  } = data?.order ?? defaultData;
 
-  const updateHandler = (): void => {
-    setOrder((prev) => ({
-      ...prev,
-      status: "Shipped",
-    }));
-  };
+  const [updateOrder] = useUpdateOrderMutation();
+  const [deleteOrder] = useDeleteOrderMutation();
+
+  const updateHandler = async () => {
+    const res = await updateOrder({
+       userId: user?._id!,
+       orderId: data?.order._id!
+    });
+    responseToast (res, navigate, "/admin/transaction");
+  } 
+    
+  const deleteHandler = async() => {
+    console.log("delete hogaya");
+    const res = await deleteOrder({
+      userId: user?._id!,
+      orderId: data?.order._id!
+   });
+   responseToast (res, navigate, "/admin/transaction");
+  }
+
+  if (isError) return <Navigate to={"/404"} />;
 
   return (
     <div className="admin-container">
       <AdminSidebar />
       <main className="product-management">
+        { isLoading ? <SkeletonLoader length={20} />
+        : 
+        <>
+        
         <section
           style={{
             padding: "2rem",
@@ -91,7 +115,7 @@ const TransactionManagement = () => {
             Address: {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
           </p>
           <h5>Amount Info</h5>
-          <p>Subtotal: {subtotal}</p>
+          <p>Subtotal: {subTotal}</p>
           <p>Shipping Charges: {shippingCharges}</p>
           <p>Tax: {tax}</p>
           <p>Discount: {discount}</p>
@@ -116,6 +140,10 @@ const TransactionManagement = () => {
             Process Status
           </button>
         </article>
+
+        </>
+      
+      }
       </main>
     </div>
   );

@@ -1,7 +1,13 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import TableHOC from "../components/admin/TableHOC"
 import { Column } from "react-table";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { UserReducerInitialState } from "../types/reducer-types";
+import { useMyOrdersQuery } from "../redux/api/orderAPI";
+import { CustomError } from "../types/api-types";
+import toast from "react-hot-toast";
+import { SkeletonLoader } from "../components/loader";
 
 type DataType = {
     _id: string,
@@ -41,21 +47,47 @@ const column: Column<DataType>[] = [
 
 const Orders = () => {
 
+    const {user} = useSelector((state: 
+        {userReducer: UserReducerInitialState}) => state.userReducer);
+
+    const {isLoading, data, isError, error } = useMyOrdersQuery(user?._id!);
+
     const [rows, setRows] = useState<DataType[]>([
-        {
-            _id: "string",
-            amount: 12344,
-            quantity: 11,
-            discount: 444,
-            status: <span className="red">Processing</span>,
-            action: <Link to={'/order/:id'}>View</Link>,
-        }
+
     ]);
+
+    if (isError) {
+        const err = error as CustomError;
+        toast.error(err.data.message);
+    }
+
+    useEffect(() => {
+        if (data) setRows(data.orders.map(order => (
+          {
+            _id: order.user._id,
+            amount: order.total,
+            discount: order.discount,
+            quantity: order.orderItems.length,
+            status: (<span
+            className={
+                order.status === "Processing" ? "red"
+                : order.status === "Shipped" ? "green"
+                : "purple"
+            }>
+            {order.status}
+            </span>),
+            action: (<Link to={`/admin/transaction/${order._id}`} >Manage</Link>),
+
+          }
+        )));
+      }, [data]);
+
     const Table = TableHOC<DataType>(column, rows, "dashboard-product-box", "Orders", rows.length > 6)();
   return (
     <div className="container">
       <h1>My Orders</h1>
-      {Table}
+      {isLoading ? <SkeletonLoader length={20}/>
+      : Table}
     </div>
   )
 }
