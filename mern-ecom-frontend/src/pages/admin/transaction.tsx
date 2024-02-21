@@ -4,11 +4,10 @@ import { Column } from "react-table";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
 import { useSelector } from "react-redux";
-import { UserReducerInitialState } from "../../types/reducer-types";
 import { useAllOrdersQuery } from "../../redux/api/orderAPI";
 import { CustomError } from "../../types/api-types";
 import toast from "react-hot-toast";
-import { RootState, server } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { SkeletonLoader } from "../../components/loader";
 
 interface DataType {

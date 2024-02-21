@@ -81,7 +81,7 @@ const Customers = () => {
       avatar: <img src={i.photo} />,
       name: i.name,
       email: i.email,
-      gender: i.email,
+      gender: i.gender,
       role: i.role,
       action: (<button onClick={()=>deleteHandler(i._id)}><FaTrash/></button>)
     })));

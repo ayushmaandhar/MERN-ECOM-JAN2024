@@ -40,7 +40,7 @@ const NewProduct = () => {
   
     e.preventDefault(); // to prevent page reload
 
-    if (!name || !price || !stock || !photo || !category) return;
+    if (!name || !price || stock <= 0 || !photo || !category) return;
 
     const formData = new FormData();
 

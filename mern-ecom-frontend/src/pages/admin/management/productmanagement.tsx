@@ -65,7 +65,7 @@ const Productmanagement = () => {
     if (category) formData.set("category", categoryUpdate);
 
     const res = await updateProduct({formData, userId: user?._id!, productId: productId!});
-    responseToast(res, navigate, "/admin/products");
+    responseToast(res, navigate, "/admin/product");
   };
 
   const deleteHandler = async () => {
