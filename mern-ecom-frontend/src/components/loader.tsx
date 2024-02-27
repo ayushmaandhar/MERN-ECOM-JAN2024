@@ -2,8 +2,11 @@
 
 const Loader = () => {
   return (
-    <div>
-        Loading...
+    <div className="bouncer-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
   )
 }

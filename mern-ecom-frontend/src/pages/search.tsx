@@ -72,7 +72,7 @@ const Search = () => {
         </div>
 
         <div>
-          <h4>Category</h4>
+          <h2>Category</h2>
           <select
             value={category}
             onChange={(e)=>setCategory(e.target.value)}
@@ -92,12 +92,13 @@ const Search = () => {
 
       <main>
         <h1>Products</h1>
-        <input
+        <input 
           type="text"
+          className=""
           placeholder="Search by name..."
           value={search}
           onChange={(e)=>setSearch(e.target.value)}
-        />
+        /> 
         <div className="search-product-list">
           {
             searchedData?.products.map( product => (

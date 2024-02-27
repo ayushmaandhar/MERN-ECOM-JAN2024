@@ -6,6 +6,7 @@ import { SkeletonLoader } from "../components/loader";
 import { CartItem } from "../types/types";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/reducer/cartReducer";
+import HomeCarousal from "../components/home-carousal";
 
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <section></section>
+      <HomeCarousal/>
       
       <h1>
         Latest Products

@@ -2,6 +2,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  zoom: 0.8;
 }
 
 * {
@@ -33,14 +34,67 @@ a {
   color: rgb(0, 195, 0);
 }
 
+
+// custom later
+.logo {
+  max-width: 16rem;
+  max-height: 3rem;
+  position: absolute;
+  left: 1.25%;
+}
+
+.bouncer-loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100px;
+  height: 100px;
+  div {
+    width: 20px;
+    height: 20px;
+    background: rgb(93, 88, 88);
+    border-radius: 50%;
+    animation: bouncer 0.5s ease-out infinite alternate;
+  }
+  div:nth-child(2) {
+    animation-delay: 0.1s;
+    opacity: 0.8;
+  }
+  div:nth-child(3) {
+    animation-delay: 0.2s;
+    opacity: 0.6;
+  }
+  div:nth-child(4) {
+    animation-delay: 0.3s;
+    opacity: 0.4;
+  }
+}
+@keyframes bouncer {
+  from { transform: translateY(0)}
+  to { transform: translateY(-100px)}
+}
+
+
+
+
+
+
+
+
+
+
 @import "admin-styles/mixin";
 @import "_home";
 @import "_cart";
 @import "_shipping";
 @import "_login";
 @import "_search";
-
-
 @import "admin-styles/dashboard";
 @import "admin-styles/products";
 @import "admin-styles/chart";
@@ -70,6 +124,7 @@ a {
 }
 
 .header {
+  
   @include flex(row, flex-end, stretch, 1.2rem);
   padding: 1rem;
   a {

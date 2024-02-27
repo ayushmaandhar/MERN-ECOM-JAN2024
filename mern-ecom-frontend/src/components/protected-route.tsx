@@ -14,15 +14,15 @@ const ProtectedRoute = ({
     isAuthenticated, 
     adminOnly, 
     admin, 
-    redirect = "/"
+    redirect 
 }:Props) => {
 
     if (!isAuthenticated) {
-        return <Navigate to={redirect}/>;
+        return <Navigate to={redirect ? redirect : '/'}/>;
     }
 
     if (adminOnly && !admin) {
-        return <Navigate to={redirect}/>;
+        return <Navigate to={'/'}/>;
     }
 
 

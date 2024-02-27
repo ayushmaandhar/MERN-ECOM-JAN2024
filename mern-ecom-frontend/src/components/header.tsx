@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { User } from '../types/types';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import logo from '/images/appLogo.png';
 import toast from 'react-hot-toast';
+
 
 
 interface PropsType  {
@@ -26,6 +28,7 @@ const Header = ({user}:PropsType) => {
 
   return (
     <nav className='header'>
+      <Link to={'/'}><img src={logo} className='logo'/></Link>
       <Link to={'/'} onClick={() => setIsOpen (false)}>Home</Link>
       <Link to={'/search'} onClick={() => setIsOpen (false)}>
         <FaSearch/>
@@ -55,6 +58,7 @@ const Header = ({user}:PropsType) => {
           </Link>
         )
       }
+
     </nav>
   )
 }
