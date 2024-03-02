@@ -79,10 +79,10 @@ const CheckoutForm = () => {
     return ( 
         <div className='checkout-container'>
             <form onSubmit={submitHandler} >
-                <button disabled={isProcessing}>
                     <PaymentElement />
+                    <button type='submit' disabled={isProcessing}>
                     {isProcessing ? "Processing..." : "Pay"}
-                </button>
+                    </button>
             </form>
         </div>
     );
